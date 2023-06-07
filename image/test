@@ -1,0 +1,284 @@
+<?php
+// session_start();
+// if (!isset($_SESSION['adminloginId'])) {
+//     header("location:admin.php");
+// }
+require('inc/db_con.php');
+
+?>
+
+<style>
+    div.header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 60px;
+        /* background-color: #204969; */
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+</head>
+
+<body>
+    <div class="header">
+        <h3>
+
+            walcome
+            <?php echo $_SESSION['admin_name'] ?>
+        </h3>
+        <form action="POST">
+            <button type="submit" class=" btn text-white shadow-none custome-bg" name="logout "> Log out </button>
+        </form>
+    </div>
+    <?php
+    if (isset($_POST['logout'])) {
+        session_destroy();
+        header("location:index.php");
+    }
+    ?>
+</body>
+
+</html>
+
+<?php require('inc/db_con.php'); ?>
+
+<?php
+if (isset($_POST['login'])) {
+    $quary = "SELECT * FROM `admin_cred` WHERE `admin_name`='$_POST[adminname]' AND `admin_pass`='$_POST[adminpass]'";
+    $res = mysqli_query($con, $quary);
+    if (mysqli_num_rows($res) == 1) {
+        $_SESSION['adminloginId'] = $_POST['admin_name'];
+        header("location:index.php");
+    } else {
+        echo "<script> alert('worng password ') ;</script>";
+    }
+}
+
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Admin Login panel </title>
+    <?php require('inc/link.php'); ?>
+    <style>
+        .availability-form {
+            margin-top: -50px;
+            position: relative;
+            z-index: 2;
+
+        }
+
+        div.login-form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+
+
+            /* box-shadow: #279e8c;
+            border: 2px solid #2ec1ac;
+            padding: 10px; */
+
+        }
+
+        .custome-bg {
+            background-color: #2ec1ac;
+            border: 1px solid #2ec1ac;
+        }
+
+        .custome-bg:hover {
+            background-color: #279e8c;
+        }
+
+        @media screen and(max-width:575px) {
+
+            .availability-form {
+                margin-top: 25px;
+                position: relative;
+
+            }
+        }
+    </style>
+
+
+</head>
+
+<body class="bg-light">
+    <div class="login-form text-center bg-white shadow p-4 rounded-4 custome-bg ">
+        <form method="POST">
+            <h4 class="p-4 h-font "> Admin Login panel</h4>
+            <div>
+                <div class="mb-3">
+                    <input name="adminname" type="text" class="form-control shadow-none text-center" required placeholder="admin name  " id="exampleInputEmail1">
+                </div>
+                <div class="mb-4">
+                    <input name="adminpass" type="password" class="form-control shadow-none text-center" required id="password" placeholder="password">
+                </div>
+                <button type="submit" name="login" value="login" class="btn text-white custome-bg shadow-none  " style="width: 350px;">Login </button>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+
+</body>
+
+</html>
+
+
+// }
+// function filteration($data)
+// {
+// foreach ($data as $key => $value) {
+// $data[$key] = trim($value);
+// $data[$key] = stripcslashes($value);
+// $data[$key] = htmlspecialchars($value);
+// $data[$key] = strip_tags($value);
+// }
+// return $data;
+// }
+// function select($sql, $values, $datatypes)
+// {
+// $con = $GLOBALS['con'];
+// if ($stmt = mysqli_prepare($con, $sql)) {
+// mysqli_stmt_bind_param($stmt, $datatypes, ...$values);
+// if (mysqli_stmt_execute($stmt)) {
+// $res = mysqli_stmt_get_result($stmt);
+// mysqli_stmt_close($stmt);
+
+// return $res;
+
+// } else {
+// die("Quary can not executed - select ");
+// }
+// } else {
+// die("Quary can not prepare - select ");
+// }
+// }
+
+
+
+<?php require('inc/db.php'); ?>
+
+<?php
+session_start();
+// include('inc/function.php');
+$msg = "";
+if (isset($_POST['submit'])) {
+    $username = ($_POST['adminname']);
+    $password = ($_POST['adminpass']);
+
+    $quary = "SELECT * FROM `admin_cred` WHERE `admin_name`='$_POST[adminname]' AND `admin_pass`='$_POST[adminpass]'";
+    $res = mysqli_query($con, $sql);
+    if (mysqli_num_rows($res) > 0) {
+        $row = mysqli_fetch_assoc($res);
+        $_SESSION['IS_LOGIN'] = 'yes';
+        $_SESSION['ADMIN_USER'] = $row['adminname'];
+        //  redirect('index.php');
+        header("location:index.php");
+    } else {
+        $msg = "Please enter valid login details";
+    }
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Admin Login panel </title>
+    <?php require('inc/link.php'); ?>
+    <style>
+        .availability-form {
+            margin-top: -50px;
+            position: relative;
+            z-index: 2;
+
+        }
+
+        div.login-form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+
+
+            /* box-shadow: #279e8c;
+            border: 2px solid #2ec1ac;
+            padding: 10px; */
+
+        }
+
+        .custome-bg {
+            background-color: #2ec1ac;
+            border: 1px solid #2ec1ac;
+        }
+
+        .custome-bg:hover {
+            background-color: #279e8c;
+        }
+
+        @media screen and(max-width:575px) {
+
+            .availability-form {
+                margin-top: 25px;
+                position: relative;
+
+            }
+        }
+    </style>
+
+
+</head>
+
+<body class="bg-light">
+    <div class="login-form text-center bg-white shadow p-4 rounded-4 custome-bg ">
+        <form method="POST">
+            <h4 class="p-4 h-font "> Admin Login panel</h4>
+            <div>
+                <div class="mb-3">
+                    <input name="adminname" type="text" class="form-control shadow-none text-center" required placeholder="admin name  " id="exampleInputEmail1">
+                </div>
+                <div class="mb-4">
+                    <input name="adminpass" type="password" class="form-control shadow-none text-center" required id="password" placeholder="password">
+                </div>
+                <button type="submit" name="login" value="login" class="btn text-white custome-bg shadow-none  " style="width: 350px;">Login </button>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+
+</body>
+
+</html>

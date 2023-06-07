@@ -1,0 +1,40 @@
+:root {
+    --teal: #2ec1ac;
+    --teal_hover: #2ec1ac;
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.h-font {
+    font-family: 'Merienda', cursive;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.custome-bg {
+    background-color: var(--teal);
+    border: 1px solid var(--teal);
+}
+
+.custome-bg:hover {
+    background-color: var(--teal_hover);
+    border-color: var(--teal_hover);
+}
+
+.h-line {
+    width: 150px;
+    margin: 0 auto;
+    height: 1.7px;
+}
+
+.box {
+    border-top-color: var(--teal);
+}
